@@ -2,7 +2,7 @@ colo moody
 syntax on
 
 :set mouse=a
-:set shiftwidth=4
+:set shiftwidth=2
 :set expandtab
 :set number
 :set notimeout
@@ -13,6 +13,7 @@ syntax on
 :set autochdir
 :set completeopt+=menuone
 :set completeopt+=noselect
+:set autoread
 
 highlight WhiteSpace ctermfg=238
 match WhiteSpace /\s/
@@ -29,18 +30,28 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfunction
 
-autocmd BufRead,BufNewFile * setlocal signcolumn=yes
-
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
-augroup END
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" let g:NERDTreeDirArrowExpandable = '+'
+" let g:NERDTreeDirArrowCollapsible = '-'
+" let g:NERDTreeMinimalUI = 1
+" let g:NERDTreeDirArrows = 1
+" let g:NERDTreeAutoDeleteBuffer = 1
+
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
+
+" Force the sign column open
+autocmd BufRead,BufNewFile * setlocal signcolumn=yes
 
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
