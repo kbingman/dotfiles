@@ -36,6 +36,11 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
+
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
@@ -45,10 +50,7 @@ let g:netrw_winsize = 25
 " let g:NERDTreeDirArrows = 1
 " let g:NERDTreeAutoDeleteBuffer = 1
 
-" augroup ProjectDrawer
-"   autocmd!
-"   autocmd VimEnter * :Vexplore
-" augroup END
+
 
 " Force the sign column open
 autocmd BufRead,BufNewFile * setlocal signcolumn=yes
