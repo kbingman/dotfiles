@@ -1,7 +1,8 @@
-colo moody
+colo moody 
 syntax on
 
-:set shiftwidth=4
+:set mouse=a
+:set shiftwidth=2
 :set expandtab
 :set number
 :set notimeout
@@ -9,6 +10,10 @@ syntax on
 :set timeoutlen=100
 :set listchars=tab:▸\ ,eol:¬,space:·
 :set list
+:set autochdir
+:set completeopt+=menuone
+:set completeopt+=noselect
+:set autoread
 
 highlight WhiteSpace ctermfg=238
 match WhiteSpace /\s/
@@ -36,6 +41,20 @@ augroup ProjectDrawer
   autocmd VimEnter * :Vexplore
 augroup END
 
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" let g:NERDTreeDirArrowExpandable = '+'
+" let g:NERDTreeDirArrowCollapsible = '-'
+" let g:NERDTreeMinimalUI = 1
+" let g:NERDTreeDirArrows = 1
+" let g:NERDTreeAutoDeleteBuffer = 1
+
+
+
+" Force the sign column open
+autocmd BufRead,BufNewFile * setlocal signcolumn=yes
+
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_sign_column_always = 1
@@ -43,41 +62,24 @@ let g:ale_sign_warning = '--'
 
 let g:prettier#autoformat = 0
 let g:prettier#config#print_width = 80
-
-" number of spaces per indentation level
-" Prettier default: 2
 let g:prettier#config#tab_width = 2
-
-" use tabs over spaces
-" Prettier default: false
 let g:prettier#config#use_tabs = 'false'
-
-" print semicolons
-" Prettier default: true
 let g:prettier#config#semi = 'true'
-
-" single quotes over double quotes
-" Prettier default: false
 let g:prettier#config#single_quote = 'true'
-
-" print spaces between brackets
-" Prettier default: true
 let g:prettier#config#bracket_spacing = 'true'
-
-" put > on the last line instead of new line
-" Prettier default: false
 let g:prettier#config#jsx_bracket_same_line = 'false'
-
-" none|es5|all
-" Prettier default: none
 let g:prettier#config#trailing_comma = 'none'
-
-" flow|babylon|typescript|css|less|scss|json|graphql|markdown
-" Prettier default: babylon
 let g:prettier#config#parser = 'babylon'
-
-" cli-override|file-override|prefer-file
 let g:prettier#config#config_precedence = 'prefer-file'
-
-" always|never|preserve
 let g:prettier#config#prose_wrap = 'preserve'
+
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.css,*.less,*.scss PrettierAsync
+
+let g:signify_sign_add = '+'
+let g:signify_sign_delete = '_'
+let g:signify_sign_delete_first_line = '‾'
+let g:signify_sign_change = '!'
+let g:signify_sign_changedelete = g:signify_sign_change
+
+let g:mucomplete#enable_auto_at_startup = 1
+
