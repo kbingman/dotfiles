@@ -2,7 +2,7 @@ colo moody
 syntax on
 
 :set mouse=a
-:set shiftwidth=2
+:set shiftwidth=4
 :set expandtab
 :set number
 :set notimeout
@@ -13,7 +13,7 @@ syntax on
 :set autochdir
 :set completeopt+=menuone
 :set completeopt+=noselect
-:set autoread
+:set cmdheight=2
 
 highlight WhiteSpace ctermfg=238
 match WhiteSpace /\s/
@@ -30,35 +30,26 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfunction
 
+autocmd BufRead,BufNewFile * setlocal signcolumn=yes
+
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
+let g:netrw_list_hide= '.*\.swp$,.DS_Store,*/tmp/*,*.so,*.swp,*.zip,*.git'
+let g:netrw_hide = 1
 
 augroup ProjectDrawer
   autocmd!
   autocmd VimEnter * :Vexplore
 augroup END
 
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-" let g:NERDTreeDirArrowExpandable = '+'
-" let g:NERDTreeDirArrowCollapsible = '-'
-" let g:NERDTreeMinimalUI = 1
-" let g:NERDTreeDirArrows = 1
-" let g:NERDTreeAutoDeleteBuffer = 1
-
-
-
-" Force the sign column open
-autocmd BufRead,BufNewFile * setlocal signcolumn=yes
-
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '--'
+let g:ale_set_highlights = 0 " Disable highligting
 
 let g:prettier#autoformat = 0
 let g:prettier#config#print_width = 80
@@ -81,5 +72,14 @@ let g:signify_sign_delete_first_line = '‾'
 let g:signify_sign_change = '!'
 let g:signify_sign_changedelete = g:signify_sign_change
 
-let g:mucomplete#enable_auto_at_startup = 1
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'typescript-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+        \ 'whitelist': ['typescript'],
+        \ })
+endif
+
+
 
