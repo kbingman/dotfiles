@@ -8,15 +8,21 @@ syntax on
 :set notimeout
 :set ttimeout
 :set timeoutlen=100
-:set listchars=tab:▸\ ,eol:¬,space:·
+:set listchars=tab:▸\ ,eol:¬
 :set list
 :set autochdir
 :set completeopt+=menuone
 :set completeopt+=noselect
-:set cmdheight=2
+:set cmdheight=4
 
 highlight WhiteSpace ctermfg=238
 match WhiteSpace /\s/
+
+" use 256 colors in terminal
+if !has("gui_running")
+    set t_Co=256
+    set term=screen-256color
+endif
 
 function! <SID>StripTrailingWhitespaces()
     " Preparation: save last search, and cursor position.
@@ -40,10 +46,10 @@ let g:netrw_winsize = 25
 let g:netrw_list_hide= '.*\.swp$,.DS_Store,*/tmp/*,*.so,*.swp,*.zip,*.git'
 let g:netrw_hide = 1
 
-augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
-augroup END
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
 
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 1
@@ -51,35 +57,13 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_warning = '--'
 let g:ale_set_highlights = 0 " Disable highligting
 
-let g:prettier#autoformat = 0
-let g:prettier#config#print_width = 80
-let g:prettier#config#tab_width = 2
-let g:prettier#config#use_tabs = 'false'
-let g:prettier#config#semi = 'true'
-let g:prettier#config#single_quote = 'true'
-let g:prettier#config#bracket_spacing = 'true'
-let g:prettier#config#jsx_bracket_same_line = 'false'
-let g:prettier#config#trailing_comma = 'none'
-let g:prettier#config#parser = 'babylon'
-let g:prettier#config#config_precedence = 'prefer-file'
-let g:prettier#config#prose_wrap = 'preserve'
-
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.css,*.less,*.scss PrettierAsync
-
 let g:signify_sign_add = '+'
 let g:signify_sign_delete = '_'
 let g:signify_sign_delete_first_line = '‾'
 let g:signify_sign_change = '!'
 let g:signify_sign_changedelete = g:signify_sign_change
 
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript'],
-        \ })
-endif
+let g:typescript_indent_disable = 1
 
-
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
