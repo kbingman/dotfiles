@@ -18,12 +18,6 @@ syntax on
 highlight WhiteSpace ctermfg=238
 match WhiteSpace /\s/
 
-" use 256 colors in terminal
-if !has("gui_running")
-    set t_Co=256
-    set term=screen-256color
-endif
-
 function! <SID>StripTrailingWhitespaces()
     " Preparation: save last search, and cursor position.
     let _s=@/
